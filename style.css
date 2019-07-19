@@ -18,6 +18,10 @@ body {
     align-items: center;
 }
 
+.starter {
+    text-align: center;
+}
+
 .page {
     display: none;
 }
@@ -29,6 +33,12 @@ body {
 .game {
 /*  display: flex;*/
     border: 1px solid black;
+}
+
+.game-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .pop {
@@ -57,4 +67,14 @@ body {
     border: 1px solid black;
     background-color: blue;
     color: white;
+}
+
+.stats {
+    height: 5rem;
+    padding: 1rem;
+    margin: 1rem;
+    background-color: black;
+    color: white;
+    font-size: 3.2rem;
+    text-align: center;
 }

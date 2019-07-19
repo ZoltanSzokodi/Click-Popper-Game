@@ -5,7 +5,7 @@ let game_obj;
 play_area.stats = document.querySelector('.stats');
 play_area.main = document.querySelector('.main');
 play_area.game = document.querySelector('.game');
-play_area.btns = Array.from(document.querySelectorAll('.btn'));
+play_area.btn = document.querySelector('.btn');
 play_area.page = Array.from(document.querySelectorAll('.page'));
 
 player.score = 0;
@@ -14,7 +14,7 @@ player.items = 3;
 // Making sure that the DOM is loaded before loading the game
 document.addEventListener('DOMContentLoaded', getData);
 
-play_area.btns.forEach(item => item.addEventListener('click', handleBtn));
+play_area.btn.addEventListener('click', handleBtn);
 
 function getData() {
     play_area.main.classList.add('visible');
@@ -65,7 +65,6 @@ function startGame() {
     player.items = 3;
     play_area.main.classList.remove('visible');
     play_area.game.classList.add('visible');
-    console.log('start');
     player.gameOver = false;
     startPop();
     updateScore();
@@ -84,7 +83,6 @@ function randomPop() {
 
 function startPop() {
     let new_pop = randomPop();
-    console.log(new_pop);
     new_pop.classList.add('active');
     new_pop.addEventListener('click', hitPop);
     const time = Math.round(Math.random() * (1500) + 750);
@@ -93,11 +91,18 @@ function startPop() {
     new_pop.old = new_pop.innerText;
     new_pop.v = game_obj[val].value;
     new_pop.innerHTML = `${game_obj[val].icon}<br>${game_obj[val].value}`;
+    
     play_area.inPlay = setTimeout(function () {
         new_pop.classList.remove('active');
         new_pop.removeEventListener('click', hitPop);
         new_pop.innerText = new_pop.old;
-
+        if(new_pop.v > 0) {
+            player.items--;
+            updateScore();
+        }
+        if(player.items <= 0) {
+            gameOver();
+        }
         if (!player.gameOver) {
             startPop();
         }
@@ -118,6 +123,13 @@ function hitPop(event) {
     if(!player.gameOver) {
         startPop();
     }
+}
+
+function gameOver() {
+    player.gameOver = true;
+    play_area.main.classList.add('visible');
+    play_area.game.classList.remove('visible');
+    document.querySelector('.new-game').innerText = 'Try Again';
 }
 
 
